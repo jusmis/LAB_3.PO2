@@ -10,7 +10,8 @@ class Main {
         if(yn.equals("yes")) {
             final int max = 101;
             int number=Game(max);
-            Guess(number);
+            int tries = 0;
+            Guess(number,tries);
         } else if (yn.equals("no")) {
             System.exit(0);
         } else {
@@ -23,28 +24,32 @@ class Main {
     static int Game(int max){
         Random rand = new Random();
         int number = rand.nextInt(max);
-        System.out.println("Wytypuj liczbę z przedziału od 1 do 100: ");
+        System.out.println("Wytypuj liczbę z przedziału od 0 do 100: ");
         return number;
     }
 
-    public static void Guess(int number) {
+    public static void Guess(int number, int tries) {
         try {
             Scanner scan = new Scanner(System.in);
             int ans = scan.nextInt();
-            if (ans > 100 || ans < 1) {
+            if (ans > 100 || ans < 0) {
                 System.out.println("Wprowadzona liczba nie miesici się w przedziale");
-                Game(number);
+                Guess(number, tries);
             }
             if (ans != number) {
                 if (ans < number) {
                     System.out.println("Wylosowana liczba jest większa");
-                    Guess(number);
+                    tries++;
+                    Guess(number,tries);
                 } else {
                     System.out.println("Wylosowana liczba jest mniejsza");
-                    Guess(number);
+                    tries++;
+                    Guess(number,tries);
                 }
             } else {
+                tries++;
                 System.out.println("Brawo!");
+                System.out.println("Próbowałeś " + tries + " razy");
                 TryAgain();
             }
         } catch (InputMismatchException e) {
@@ -56,8 +61,9 @@ class Main {
 
     public static void main(String[] args){
         final int max = 101;
-        System.out.println("Zostanie wylosowana liczba z przedziału od 1 do 100");
+        System.out.println("Zostanie wylosowana liczba z przedziału od 0 do 100");
         int number = Game(max);
-        Guess(number);
+        int tries = 0;
+        Guess(number, tries);
     }
 }
